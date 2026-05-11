@@ -265,10 +265,10 @@ select:focus,input[type=number]:focus{outline:none;border-color:var(--forest)}
 <nav>
   <div class="nav-logo">UCP V5.2 // Starter Kit</div>
   <div class="nav-links">
-    <button class="nav-link active" onclick="scrollTo('concepts')">Concepts</button>
-    <button class="nav-link" onclick="scrollTo('simulate')">Simulate</button>
-    <button class="nav-link" onclick="scrollTo('read')">Read Results</button>
-    <button class="nav-link" onclick="scrollTo('roadmap')">Roadmap</button>
+    <button class="nav-link active" onclick="navTo('concepts')">Concepts</button>
+    <button class="nav-link" onclick="navTo('simulate')">Simulate</button>
+    <button class="nav-link" onclick="navTo('read')">Read Results</button>
+    <button class="nav-link" onclick="navTo('roadmap')">Roadmap</button>
   </div>
 </nav>
 
@@ -800,7 +800,7 @@ var PRESET_DESCS = {
   'scarcity_boundary_mix': 'Resource scarcity \u2014 how communal, ordered, and boundary-centered PRFs reorganize their moral field under competitive pressure.'
 };
 
-function scrollTo(id) {
+function navTo(id) {
   var el = document.getElementById(id);
   if (el) el.scrollIntoView({behavior:'smooth'});
   document.querySelectorAll('.nav-link').forEach(function(b){
