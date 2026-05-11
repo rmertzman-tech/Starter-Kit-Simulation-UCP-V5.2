@@ -2,627 +2,995 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Ethics Beyond Boundaries — Course App Suite</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UCP V5.2 Starter Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{
-  --teal:#0f766e;--teal-dark:#0d5e57;--teal-mid:#14b8a6;--teal-light:#ccfbf1;
-  --amber:#f59e0b;--amber-dark:#92400e;--amber-light:#fef3c7;
-  --navy:#1a2744;--ink:#1f2937;--muted:#6b7280;
-  --border:#e5e7eb;--paper:#f9fafb;
-  --sky:#1e3a8a;--sky-light:#dbeafe;
-  --green:#166534;--green-light:#dcfce7;
-  --red:#dc2626;--red-light:#fee2e2;
+:root {
+  --ink: #1a1614;
+  --forest: #0D5E57;
+  --forest-lt: #1a7a71;
+  --gold: #c9a84c;
+  --rust: #b85c38;
+  --mist: #f5f3ef;
+  --paper: #faf8f5;
+  --border: rgba(26,22,20,.12);
+  --mono: 'DM Mono', monospace;
+  --serif: 'Libre Baskerville', Georgia, serif;
+  --sans: 'DM Sans', system-ui, sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Cormorant Garamond','Georgia',serif;background:linear-gradient(135deg,#0a1628 0%,#112240 50%,#0a1628 100%);min-height:100vh;color:var(--ink)}
-.wrap{max-width:1000px;margin:0 auto;padding:1rem 1rem 3rem}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.65;font-size:16px}
+::selection{background:var(--gold);color:#fff}
 
-/* HEADER */
-.site-header{text-align:center;padding:2.5rem 1rem 2rem;color:white}
-.site-header .label{font-family:'JetBrains Mono',monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.14em;color:rgba(20,184,166,.75);margin-bottom:.5rem}
-.site-header h1{font-size:2.2rem;font-weight:700;color:white;margin-bottom:.4rem;line-height:1.15}
-.site-header .sub{font-size:1rem;color:rgba(255,255,255,.48);font-style:italic;margin-bottom:1rem}
-.site-header .desc{max-width:640px;margin:0 auto;font-size:.9rem;color:rgba(255,255,255,.55);line-height:1.7}
+/* ── Layout ── */
+.page-wrap{max-width:860px;margin:0 auto;padding:0 24px 80px}
 
-/* CHAPTER GROUPS */
-.chapter-group{margin-bottom:2rem}
-.group-label{font-family:'JetBrains Mono',monospace;font-size:.68rem;text-transform:uppercase;letter-spacing:.12em;color:rgba(20,184,166,.65);margin-bottom:.6rem;padding-left:.1rem}
-.app-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.75rem}
+/* ── Nav ── */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:var(--forest);color:#fff;
+  padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;
+  height:52px;
+}
+.nav-logo{font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;opacity:.9}
+.nav-links{display:flex;gap:2px}
+.nav-link{
+  background:none;border:none;color:rgba(255,255,255,.7);
+  font-family:var(--sans);font-size:.8rem;padding:6px 12px;
+  border-radius:4px;cursor:pointer;transition:all .15s;
+}
+.nav-link:hover,.nav-link.active{background:rgba(255,255,255,.15);color:#fff}
 
-/* APP CARDS */
-.app-card{background:white;border-radius:.75rem;overflow:hidden;text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:transform .18s,box-shadow .18s;box-shadow:0 2px 12px rgba(0,0,0,.15)}
-.app-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.25)}
-.app-card-head{padding:.9rem 1.1rem .7rem;display:flex;align-items:flex-start;gap:.7rem}
-.app-card-icon{font-size:1.5rem;line-height:1;flex-shrink:0;margin-top:.1rem}
-.app-card-title{font-size:1rem;font-weight:700;color:var(--navy);line-height:1.25;margin-bottom:.15rem}
-.app-card-type{font-family:'JetBrains Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
-.app-card-body{padding:0 1.1rem .9rem;flex:1}
-.app-card-desc{font-size:.82rem;color:var(--muted);line-height:1.6}
-.app-card-footer{padding:.55rem 1.1rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.app-card-tag{font-family:'JetBrains Mono',monospace;font-size:.58rem;text-transform:uppercase;letter-spacing:.06em;padding:.18rem .5rem;border-radius:.25rem}
-.tag-case{background:var(--teal-light);color:var(--teal-dark)}
-.tag-companion{background:var(--sky-light);color:var(--sky)}
-.tag-simulation{background:var(--amber-light);color:var(--amber-dark)}
-.tag-reference{background:var(--paper);color:var(--muted);border:1px solid var(--border)}
-.tag-orientation{background:var(--green-light);color:var(--green)}
-.app-card-arrow{font-size:.9rem;color:var(--teal-mid)}
+/* ── Hero ── */
+.hero{
+  padding:64px 0 48px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:56px;
+}
+.hero-tag{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;
+  color:var(--forest);text-transform:uppercase;margin-bottom:16px;
+}
+.hero-title{
+  font-family:var(--serif);font-size:clamp(2rem,5vw,3.2rem);
+  line-height:1.15;color:var(--ink);margin-bottom:20px;
+  font-weight:700;
+}
+.hero-title em{color:var(--forest);font-style:normal}
+.hero-sub{
+  font-size:1.05rem;color:rgba(26,22,20,.65);max-width:580px;
+  line-height:1.7;margin-bottom:32px;
+}
+.hero-status{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--mist);border:1px solid var(--border);
+  border-radius:6px;padding:8px 16px;font-family:var(--mono);
+  font-size:.76rem;color:var(--ink);
+}
+.status-dot{width:8px;height:8px;border-radius:50%;background:#ccc;flex-shrink:0}
+.status-dot.live{background:#2ecc71;box-shadow:0 0 8px #2ecc7188}
+.status-dot.checking{background:var(--gold);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
-/* ACCENT BORDERS BY CHAPTER */
-.ch-orient .app-card-head{border-top:3px solid #0284c7}
-.ch-1 .app-card-head{border-top:3px solid #7c3aed}
-.ch-2 .app-card-head{border-top:3px solid #dc2626}
-.ch-3 .app-card-head{border-top:3px solid #0f766e}
-.ch-4 .app-card-head{border-top:3px solid #ca8a04}
-.ch-5 .app-card-head{border-top:3px solid #166534}
-.ch-6 .app-card-head{border-top:3px solid #0369a1}
-.ch-7 .app-card-head{border-top:3px solid #9333ea}
-.ch-8 .app-card-head{border-top:3px solid #92400e}
-.ch-9 .app-card-head{border-top:3px solid #0891b2}
-.ch-10 .app-card-head{border-top:3px solid #4f46e5}
-.ch-interlude .app-card-head{border-top:3px solid #0d5e57}
-.ch-rustbelt .app-card-head{border-top:3px solid #b45309}
-.ch-prologue .app-card-head{border-top:3px solid #6d28d9}
-.ch-11 .app-card-head{border-top:3px solid #0f766e}
-.ch-12 .app-card-head{border-top:3px solid #dc2626}
-.ch-13 .app-card-head{border-top:3px solid #1d4ed8}
-.ch-14 .app-card-head{border-top:3px solid #7c3aed}
-.ch-tools .app-card-head{border-top:3px solid #374151}
+/* ── Section structure ── */
+.section{margin-bottom:72px;scroll-margin-top:64px}
+.section-num{
+  font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;
+  color:var(--forest);text-transform:uppercase;margin-bottom:8px;
+  display:flex;align-items:center;gap:8px;
+}
+.section-num::after{content:'';flex:1;height:1px;background:var(--forest);opacity:.25}
+.section-title{
+  font-family:var(--serif);font-size:1.6rem;font-weight:700;
+  color:var(--ink);margin-bottom:16px;line-height:1.25;
+}
+.section-body{font-size:.97rem;color:rgba(26,22,20,.8);line-height:1.75;margin-bottom:24px}
+.section-body p+p{margin-top:14px}
 
-/* DIVIDER */
-.divider{height:1px;background:rgba(255,255,255,.07);margin:1.5rem 0}
+/* ── Concept cards ── */
+.concept-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:24px 0}
+.concept-card{
+  background:#fff;border:1px solid var(--border);border-radius:8px;
+  padding:18px 20px;border-top:3px solid var(--forest);
+}
+.concept-card.rust{border-top-color:var(--rust)}
+.concept-card.gold{border-top-color:var(--gold)}
+.concept-card.muted{border-top-color:rgba(26,22,20,.2)}
+.concept-label{
+  font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--forest);margin-bottom:6px;
+}
+.concept-card.rust .concept-label{color:var(--rust)}
+.concept-card.gold .concept-label{color:#a07a20}
+.concept-name{font-family:var(--serif);font-size:1rem;font-weight:700;margin-bottom:6px}
+.concept-desc{font-size:.84rem;color:rgba(26,22,20,.65);line-height:1.6}
 
-/* PREDICTION CHAIN */
-.chain-bar{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:.65rem;padding:1rem 1.25rem;margin-bottom:1.5rem}
-.chain-bar h3{font-size:.75rem;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.1em;color:rgba(20,184,166,.65);margin-bottom:.65rem}
-.chain-row{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
-.chain-node{font-family:'JetBrains Mono',monospace;font-size:.65rem;background:rgba(255,255,255,.07);color:rgba(255,255,255,.65);padding:.22rem .55rem;border-radius:.3rem;white-space:nowrap}
-.chain-arrow{color:rgba(20,184,166,.5);font-size:.85rem}
+/* ── Metric reference ── */
+.metric-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.88rem}
+.metric-table th{
+  font-family:var(--mono);font-size:.65rem;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--forest);padding:8px 12px;
+  border-bottom:2px solid var(--forest);text-align:left;background:#fff;
+}
+.metric-table td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+.metric-table tr:hover td{background:var(--mist)}
+.metric-name{font-family:var(--mono);font-size:.8rem;color:var(--forest);font-weight:500}
+.metric-range{font-family:var(--mono);font-size:.75rem;color:var(--rust)}
+
+/* ── Simulation runner ── */
+.sim-box{
+  background:#fff;border:1px solid var(--border);border-radius:10px;
+  overflow:hidden;box-shadow:0 2px 20px rgba(0,0,0,.06);
+}
+.sim-header{
+  background:var(--forest);color:#fff;padding:16px 24px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.sim-header-title{font-family:var(--mono);font-size:.78rem;letter-spacing:.06em}
+.sim-body{padding:24px}
+.sim-section-label{
+  font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;
+  text-transform:uppercase;color:rgba(26,22,20,.45);margin-bottom:10px;
+}
+.sim-select-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.sim-select-group{display:flex;flex-direction:column;gap:6px}
+.sim-label{font-size:.82rem;font-weight:500;color:var(--ink)}
+select, input[type=number]{
+  width:100%;padding:9px 12px;border:1px solid var(--border);
+  border-radius:6px;font-family:var(--sans);font-size:.87rem;
+  background:var(--mist);color:var(--ink);appearance:none;
+  -webkit-appearance:none;
+}
+select:focus,input[type=number]:focus{outline:none;border-color:var(--forest)}
+.sim-params-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px}
+.run-btn{
+  width:100%;background:var(--forest);color:#fff;border:none;
+  border-radius:8px;padding:14px;font-family:var(--sans);
+  font-size:.95rem;font-weight:600;cursor:pointer;
+  transition:all .2s;letter-spacing:.02em;
+}
+.run-btn:hover{background:var(--forest-lt)}
+.run-btn:disabled{background:rgba(26,22,20,.2);cursor:not-allowed}
+
+/* ── Results ── */
+.results-area{margin-top:20px;display:none}
+.results-area.visible{display:block}
+.results-loading{
+  text-align:center;padding:40px;font-family:var(--mono);
+  font-size:.8rem;color:rgba(26,22,20,.45);letter-spacing:.05em;
+}
+.spinner{
+  width:24px;height:24px;border:2px solid var(--border);
+  border-top-color:var(--forest);border-radius:50%;
+  animation:spin 1s linear infinite;margin:0 auto 12px;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.metric-tile{
+  background:var(--mist);border:1px solid var(--border);
+  border-radius:8px;padding:14px;
+}
+.metric-tile-label{font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(26,22,20,.45);margin-bottom:4px}
+.metric-tile-value{font-family:var(--mono);font-size:1.2rem;font-weight:500;color:var(--forest)}
+.metric-tile-value.warn{color:var(--rust)}
+.metric-tile-interp{font-size:.72rem;color:rgba(26,22,20,.55);margin-top:4px;line-height:1.4}
+.timeline-chart{
+  background:var(--mist);border:1px solid var(--border);
+  border-radius:8px;padding:16px;margin-bottom:20px;
+}
+.chart-label{font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(26,22,20,.45);margin-bottom:12px}
+.chart-svg-wrap{overflow-x:auto}
+.agent-readings{margin-top:12px}
+.agent-card{
+  background:var(--mist);border:1px solid var(--border);border-radius:8px;
+  padding:14px 16px;margin-bottom:10px;
+}
+.agent-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.agent-name{font-family:var(--mono);font-size:.8rem;font-weight:500;color:var(--forest)}
+.agent-worldview{font-size:.75rem;color:rgba(26,22,20,.5);font-style:italic}
+.agent-interp{font-size:.85rem;color:var(--ink);line-height:1.5;margin-bottom:4px}
+.agent-lambda{font-family:var(--mono);font-size:.75rem;color:var(--rust)}
+.error-msg{
+  background:#fff5f5;border:1px solid #fca5a5;border-radius:8px;
+  padding:16px;font-size:.87rem;color:#991b1b;font-family:var(--mono);
+}
+
+/* ── Roadmap ── */
+.roadmap{margin-top:28px}
+.roadmap-phase{
+  display:flex;gap:20px;margin-bottom:28px;padding-bottom:28px;
+  border-bottom:1px solid var(--border);
+}
+.roadmap-phase:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.phase-marker{flex-shrink:0;width:40px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.phase-dot{
+  width:14px;height:14px;border-radius:50%;border:2px solid var(--border);
+  background:#fff;flex-shrink:0;
+}
+.phase-dot.live{background:var(--forest);border-color:var(--forest)}
+.phase-dot.near{background:var(--gold);border-color:var(--gold)}
+.phase-dot.future{background:rgba(26,22,20,.15);border-color:rgba(26,22,20,.2)}
+.phase-line{width:2px;flex:1;background:var(--border);min-height:20px}
+.phase-content{flex:1;padding-top:0}
+.phase-status{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;
+  text-transform:uppercase;margin-bottom:6px;
+}
+.phase-status.live{color:var(--forest)}
+.phase-status.near{color:#a07a20}
+.phase-status.future{color:rgba(26,22,20,.4)}
+.phase-title{font-family:var(--serif);font-size:1.05rem;font-weight:700;margin-bottom:6px}
+.phase-desc{font-size:.86rem;color:rgba(26,22,20,.65);line-height:1.65}
+.phase-features{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px}
+.feature-tag{
+  font-size:.74rem;background:var(--mist);border:1px solid var(--border);
+  border-radius:4px;padding:3px 9px;color:rgba(26,22,20,.6);
+  font-family:var(--mono);
+}
+
+/* ── Code blocks ── */
+.code-block{
+  background:#1a1614;color:#e8e4de;border-radius:8px;
+  padding:16px 20px;font-family:var(--mono);font-size:.8rem;
+  line-height:1.7;overflow-x:auto;margin:16px 0;
+}
+.code-block .key{color:#c9a84c}
+.code-block .val{color:#7ec8a4}
+.code-block .comment{color:#666}
+
+/* ── Callout ── */
+.callout{
+  background:linear-gradient(135deg,#f0f7f6,#f8f6f1);
+  border:1px solid rgba(13,94,87,.2);border-left:3px solid var(--forest);
+  border-radius:0 8px 8px 0;padding:16px 20px;margin:20px 0;
+  font-size:.9rem;line-height:1.7;
+}
+.callout strong{color:var(--forest)}
+.callout.warn{border-left-color:var(--gold);background:linear-gradient(135deg,#fdf9ee,#faf8f5)}
+.callout.warn strong{color:#a07a20}
+
+/* ── Responsive ── */
+@media(max-width:600px){
+  .concept-grid,.sim-select-row,.sim-params-row,.metrics-grid{grid-template-columns:1fr}
+  .metrics-grid{grid-template-columns:1fr 1fr}
+}
 </style>
 </head>
 <body>
-<div class="wrap">
 
-<div class="site-header">
-  <div class="label">Saint Petersburg College &middot; Ethics Institute</div>
-  <h1>Ethics Beyond Boundaries</h1>
-  <div class="sub">Interactive App Suite &middot; Dr. Robert Mertzman</div>
-  <div class="desc">A complete set of simulation apps, case explorers, and companion reading tools for the EBB course. Each app connects to the UCP simulation engine and stores journal predictions for the next chapter.</div>
-</div>
+<nav>
+  <div class="nav-logo">UCP V5.2 // Starter Kit</div>
+  <div class="nav-links">
+    <button class="nav-link active" onclick="scrollTo('concepts')">Concepts</button>
+    <button class="nav-link" onclick="scrollTo('simulate')">Simulate</button>
+    <button class="nav-link" onclick="scrollTo('read')">Read Results</button>
+    <button class="nav-link" onclick="scrollTo('roadmap')">Roadmap</button>
+  </div>
+</nav>
 
-<!-- PREDICTION CHAIN -->
-<div class="chain-bar">
-  <h3>Prediction Chain &mdash; Journal Q5 flows chapter to chapter</h3>
-  <div class="chain-row">
-    <span class="chain-node">Orientation → orient_cq5</span>
-    <span class="chain-arrow">→</span>
-    <span class="chain-node">Ch2 → ch2_cq5</span>
-    <span class="chain-arrow">→</span>
-    <span class="chain-node">Ch3 → ch3_cq5</span>
-    <span class="chain-arrow">→</span>
-    <span class="chain-node">Ch4 → ch4_cq5</span>
-    <span class="chain-arrow">→</span>
-    <span class="chain-node">Ch5 → ch5_cq5</span>
-    <span class="chain-arrow">→</span>
-    <span class="chain-node">Ch6 → ch6_cq5</span>
-    <span class="chain-arrow">→</span>
-    <span class="chain-node">Ch7 → ch7_cq5</span>
-    <span class="chain-arrow">→</span>
-    <span class="chain-node">Ch8 → ch8_cq5</span>
-    <span class="chain-arrow">→</span>
-    <span class="chain-node">Rust Belt → rust_belt_cq5</span>
+<div class="page-wrap">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">Universal Coordination Platform &mdash; Field Guide</div>
+  <h1 class="hero-title">Running your first<br><em>live simulation</em></h1>
+  <p class="hero-sub">This guide is for researchers, practitioners, and educators who want to use the UCP simulation engine without deep programming experience. By the end you will have run a real simulation, understood its output, and seen the road ahead.</p>
+  <div class="hero-status">
+    <div class="status-dot checking" id="status-dot"></div>
+    <span id="status-text" style="font-family:var(--mono)">Connecting to backend&hellip;</span>
   </div>
 </div>
 
-<!-- ORIENTATION -->
-<div class="chapter-group ch-orient">
-  <div class="group-label">Orientation</div>
-  <div class="app-grid">
-    <a class="app-card" href="ebb-orientation-app.html">
-      <div class="app-card-head"><div class="app-card-icon">🗺️</div><div><div class="app-card-title">Course Orientation</div><div class="app-card-type">Interactive Map</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">The watershed model, PRF Peak Calculator, course arc, and Journal Q4 prediction for Chapter 2. Start here before Chapter 1.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-orientation">Orientation</span><span class="app-card-arrow">→</span></div>
-    </a>
-    <a class="app-card" href="day1-orientation.html">
-      <div class="app-card-head"><div class="app-card-icon">📋</div><div><div class="app-card-title">Day 1 Orientation</div><div class="app-card-type">First Class</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">First-day introduction to the course framework, PRF concept, and OS1/OS2 distinction.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-orientation">Day 1</span><span class="app-card-arrow">→</span></div>
-    </a>
+<!-- SECTION 1: WHAT IS UCP -->
+<section class="section" id="concepts">
+  <div class="section-num">01 &mdash; What this is</div>
+  <h2 class="section-title">The UCP in plain language</h2>
+  <div class="section-body">
+    <p>The Universal Coordination Platform is a physics-inspired simulation engine. It models how people &mdash; or any agents with distinct worldviews &mdash; coordinate (or fail to coordinate) under pressure. Instead of describing coordination abstractly, it computes it: running populations of agents through scenarios and measuring what emerges.</p>
+    <p>Think of it as a thermodynamic laboratory for ethics, institutions, and identity. The same physics that describes how molecules find equilibrium describes how people under institutional stress find (or lose) coherent action. The engine was built to make that analogy precise and measurable.</p>
   </div>
-</div>
 
-<!-- CHAPTER 1 -->
-<div class="chapter-group ch-1">
-  <div class="group-label">Chapter 1 &mdash; The PRF</div>
-  <div class="app-grid">
-    <a class="app-card" href="chapter1-lens-app.html">
-      <div class="app-card-head"><div class="app-card-icon">🔭</div><div><div class="app-card-title">Your Interpretive Lens</div><div class="app-card-type">Companion App</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Build your Phenomenological Reference Framework. How your PRF formed, what it makes visible, and what it makes hard to see.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-companion">Companion</span><span class="app-card-arrow">→</span></div>
-    </a>
+  <div class="concept-grid">
+    <div class="concept-card">
+      <div class="concept-label">Core concept</div>
+      <div class="concept-name">Lambda (&lambda;)</div>
+      <div class="concept-desc">Coordination capacity &mdash; how much an agent can contribute to coherent collective action. Ranges 0&ndash;1. The gap between raw and perceived lambda is the suppression signal.</div>
+    </div>
+    <div class="concept-card rust">
+      <div class="concept-label">Core concept</div>
+      <div class="concept-name">PRF (Phenomenological Reference Frame)</div>
+      <div class="concept-desc">The interpretive lens an agent brings &mdash; their worldview. Five types: liberal individualist, ubuntu relational, indigenous custodial, role order, sacred boundary.</div>
+    </div>
+    <div class="concept-card gold">
+      <div class="concept-label">Core concept</div>
+      <div class="concept-name">Morphic Suppression</div>
+      <div class="concept-desc">Accumulated learned self-censorship. When agents repeatedly find that contributing well doesn&rsquo;t produce coherent outcomes, they stop trying. This is the Boisjoly dynamic.</div>
+    </div>
+    <div class="concept-card muted">
+      <div class="concept-label">Core concept</div>
+      <div class="concept-name">Evidence Policy</div>
+      <div class="concept-desc">How an agent processes information &mdash; from empirical calibration to alternative facts. Evidence policies distort the field an agent perceives, creating lambda gaps.</div>
+    </div>
   </div>
-</div>
 
-<!-- CHAPTER 2 -->
-<div class="chapter-group ch-2">
-  <div class="group-label">Chapter 2 &mdash; The Challenger Disaster</div>
-  <div class="app-grid">
-    <a class="app-card" href="challenger-case-explorer.html">
-      <div class="app-card-head"><div class="app-card-icon">🚀</div><div><div class="app-card-title">Challenger Case Explorer</div><div class="app-card-type">Case Explorer + Simulation</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Roger Boisjoly and the suppression gap. Eight tabs: Discovery through Aftermath. UCP Simulation: Config A (Thiokol) vs. Config B (protected channel). Clickable metric explanations.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-case">Case Explorer</span><span class="app-card-arrow">→</span></div>
-    </a>
-    <a class="app-card" href="chapter2-telescope-app.html">
-      <div class="app-card-head"><div class="app-card-icon">📡</div><div><div class="app-card-title">Chapter 2 Companion</div><div class="app-card-type">Companion App</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">The suppression gap concept, institutional architecture, and the ethics of speaking truth to power.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-companion">Companion</span><span class="app-card-arrow">→</span></div>
-    </a>
+  <div class="callout">
+    <strong>The key intuition:</strong> Two agents can have identical capacity (&lambda; raw) but one perceives the situation so differently &mdash; through evidence distortion or institutional suppression &mdash; that their felt coordination capacity (&lambda; perceived) is half as high. The gap between those two numbers is where moral injury lives.
   </div>
-</div>
 
-<!-- CHAPTER 3 -->
-<div class="chapter-group ch-3">
-  <div class="group-label">Chapter 3 &mdash; Father Hanna</div>
-  <div class="app-grid">
-    <a class="app-card" href="hanna-case-explorer.html">
-      <div class="app-card-head"><div class="app-card-icon">⛪</div><div><div class="app-card-title">Hanna Case Explorer</div><div class="app-card-type">Case Explorer + Simulation</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Father Saad Sirop Hanna — maintaining identity under maximum institutional entropy. Identity Kernel, BioBond, and the limits of individual courage.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-case">Case Explorer</span><span class="app-card-arrow">→</span></div>
-    </a>
-    <a class="app-card" href="chapter3-commonwealth-app.html">
-      <div class="app-card-head"><div class="app-card-icon">🏛️</div><div><div class="app-card-title">Chapter 3 Companion</div><div class="app-card-type">Companion App</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Building commonwealth across difference. The conditions for ethical functioning under extreme constraint.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-companion">Companion</span><span class="app-card-arrow">→</span></div>
-    </a>
+  <h3 style="font-family:var(--serif);font-size:1.15rem;margin:28px 0 12px">The five worldview types</h3>
+  <div class="concept-grid">
+    <div class="concept-card">
+      <div class="concept-label">Worldview A</div>
+      <div class="concept-name">Liberal Individualist</div>
+      <div class="concept-desc">Autonomy, procedural fairness, self-authorship. Prioritizes individual rights and transparent rules. OS2 strategies: procedural design, autonomy support.</div>
+    </div>
+    <div class="concept-card">
+      <div class="concept-label">Worldview B</div>
+      <div class="concept-name">Ubuntu Relational</div>
+      <div class="concept-desc">Personhood through relation, communal reciprocity, mutual recognition. &ldquo;I am because we are.&rdquo; OS2 strategies: mutual support, restorative repair.</div>
+    </div>
+    <div class="concept-card">
+      <div class="concept-label">Worldview C</div>
+      <div class="concept-name">Indigenous Custodial</div>
+      <div class="concept-desc">Stewardship across generations, place-continuity, ancestor accountability. OS2 strategies: boundary guardianship, stewardship practice.</div>
+    </div>
+    <div class="concept-card">
+      <div class="concept-label">Worldview D</div>
+      <div class="concept-name">Role Order</div>
+      <div class="concept-desc">Institutional stability, role coherence, structured hierarchy. OS2 strategies: transparent hierarchy, role scaffolding, stability protocol.</div>
+    </div>
   </div>
-</div>
+</section>
 
-<!-- CHAPTER 4 -->
-<div class="chapter-group ch-4">
-  <div class="group-label">Chapter 4 &mdash; Wangari Maathai</div>
-  <div class="app-grid">
-    <a class="app-card" href="maathai-case-explorer.html">
-      <div class="app-card-head"><div class="app-card-icon">🌳</div><div><div class="app-card-title">Maathai Case Explorer</div><div class="app-card-type">Case Explorer + Simulation</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Wangari Maathai and the Green Belt Movement. Coordination architecture, OS2 Bridge, and building institutions that outlast their founders.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-case">Case Explorer</span><span class="app-card-arrow">→</span></div>
-    </a>
-    <a class="app-card" href="chapter4-maathai-app.html">
-      <div class="app-card-head"><div class="app-card-icon">🌿</div><div><div class="app-card-title">Chapter 4 Companion</div><div class="app-card-type">Companion App</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Institutional design, capability-based coordination, and the ethics of building structures that distribute agency.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-companion">Companion</span><span class="app-card-arrow">→</span></div>
-    </a>
+<!-- SECTION 2: SIMULATE NOW -->
+<section class="section" id="simulate">
+  <div class="section-num">02 &mdash; Run it now</div>
+  <h2 class="section-title">Your first live simulation</h2>
+  <div class="section-body">
+    <p>The simulation engine is running on your Render backend right now. Select a scenario preset below, adjust parameters if you like, and click Run. The engine will compute a full multi-agent coordination simulation and return the results in seconds.</p>
+    <p>Start with the <strong>Whistleblower</strong> preset &mdash; it is the most pedagogically developed scenario and produces the clearest contrast between worldview types.</p>
   </div>
-</div>
 
-<!-- CHAPTER 5 -->
-<div class="chapter-group ch-5">
-  <div class="group-label">Chapter 5 &mdash; Nelson Mandela</div>
-  <div class="app-grid">
-    <a class="app-card" href="mandela-case-explorer.html">
-      <div class="app-card-head"><div class="app-card-icon">⚖️</div><div><div class="app-card-title">Mandela Case Explorer</div><div class="app-card-type">Case Explorer + Simulation</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Nelson Mandela and the TRC. Three simulation runs: the TRC design, the fragmentation counterfactual, and the vulnerable population test.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-case">Case Explorer</span><span class="app-card-arrow">→</span></div>
-    </a>
-    <a class="app-card" href="chapter5-mandela-app.html">
-      <div class="app-card-head"><div class="app-card-icon">🕊️</div><div><div class="app-card-title">Chapter 5 Companion</div><div class="app-card-type">Companion App</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Truth, reconciliation, and institutional design across radical difference. The TRC as a coordination architecture problem.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-companion">Companion</span><span class="app-card-arrow">→</span></div>
-    </a>
+  <div class="sim-box">
+    <div class="sim-header">
+      <span class="sim-header-title">SIMULATION RUNNER &mdash; LIVE BACKEND</span>
+      <span id="backend-badge" style="font-family:var(--mono);font-size:.7rem;opacity:.7">checking&hellip;</span>
+    </div>
+    <div class="sim-body">
+
+      <div class="sim-section-label">Scenario</div>
+      <div class="sim-select-row">
+        <div class="sim-select-group">
+          <label class="sim-label">Preset scenario</label>
+          <select id="preset-select" onchange="applyPreset()">
+            <option value="procedural_vs_relational_whistleblower">Whistleblower &mdash; Procedural vs Relational</option>
+            <option value="custodial_land_conflict">Land &amp; Stewardship Conflict</option>
+            <option value="misinformation_and_repair">Misinformation &amp; Epistemic Repair</option>
+            <option value="scarcity_boundary_mix">Scarcity &amp; Boundary Reorganization</option>
+          </select>
+        </div>
+        <div class="sim-select-group">
+          <label class="sim-label">What this models</label>
+          <div id="preset-desc" style="font-size:.83rem;color:rgba(26,22,20,.6);line-height:1.5;padding-top:8px">
+            Institutional misconduct pressure &mdash; how procedural, relational, and role-order worldviews read the same scenario differently.
+          </div>
+        </div>
+      </div>
+
+      <div class="sim-section-label">Parameters</div>
+      <div class="sim-params-row">
+        <div class="sim-select-group">
+          <label class="sim-label">Steps (time periods)</label>
+          <input type="number" id="param-steps" value="6" min="2" max="20">
+        </div>
+        <div class="sim-select-group">
+          <label class="sim-label">Random seed</label>
+          <input type="number" id="param-seed" value="42" min="1" max="9999">
+        </div>
+        <div class="sim-select-group">
+          <label class="sim-label">BioBond activates at step</label>
+          <input type="number" id="param-biobond" value="" placeholder="none" min="0" max="20">
+        </div>
+      </div>
+
+      <div class="callout warn" style="margin-bottom:16px;font-size:.84rem">
+        <strong>BioBond</strong> is an intervention that reduces morphic suppression &mdash; simulating what happens when structural conditions improve. Leave blank to run without it, or enter &ldquo;4&rdquo; to see it activate midway.
+      </div>
+
+      <button class="run-btn" id="run-btn" onclick="runSimulation()">Run Simulation &rarr;</button>
+
+      <div class="results-area" id="results-area">
+        <div class="results-loading" id="results-loading">
+          <div class="spinner"></div>
+          Computing simulation&hellip; this takes 10&ndash;20 seconds
+        </div>
+        <div id="results-content" style="display:none">
+          <div style="margin-bottom:16px;padding-top:16px;border-top:1px solid var(--border)">
+            <div class="sim-section-label">Aggregate metrics &mdash; final step</div>
+            <div class="metrics-grid" id="metrics-grid"></div>
+          </div>
+          <div>
+            <div class="sim-section-label">Timeline &mdash; all steps</div>
+            <div class="timeline-chart">
+              <div class="chart-label">&lambda; Raw vs &lambda; Perceived across steps (suppression gap = shaded area)</div>
+              <div class="chart-svg-wrap" id="chart-svg-wrap"></div>
+            </div>
+          </div>
+          <div>
+            <div class="sim-section-label">Sample agent readings</div>
+            <div class="agent-readings" id="agent-readings"></div>
+          </div>
+          <div style="margin-top:12px">
+            <div class="sim-section-label">Full JSON response</div>
+            <details>
+              <summary style="cursor:pointer;font-size:.83rem;color:var(--forest);font-family:var(--mono)">Show raw JSON</summary>
+              <pre id="raw-json" style="background:#1a1614;color:#e8e4de;padding:16px;border-radius:8px;font-size:.72rem;overflow:auto;max-height:400px;margin-top:8px;line-height:1.6"></pre>
+            </details>
+          </div>
+        </div>
+        <div id="results-error" style="display:none" class="error-msg"></div>
+      </div>
+    </div>
   </div>
-</div>
+</section>
 
-<!-- CHAPTER 6 -->
-<div class="chapter-group ch-6">
-  <div class="group-label">Chapter 6 &mdash; Tim Palmer</div>
-  <div class="app-grid">
-    <a class="app-card" href="palmer-case-explorer.html">
-      <div class="app-card-head"><div class="app-card-icon">🌀</div><div><div class="app-card-title">Palmer Case Explorer</div><div class="app-card-type">Case Explorer + Simulation</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Tim Palmer and ensemble forecasting. Single-model vs. ensemble architecture. The moral argument for honest uncertainty. Three simulation runs.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-case">Case Explorer</span><span class="app-card-arrow">→</span></div>
-    </a>
-    <a class="app-card" href="chapter6-companion.html">
-      <div class="app-card-head"><div class="app-card-icon">📊</div><div><div class="app-card-title">Chapter 6 Companion</div><div class="app-card-type">Companion App</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">The primacy of doubt. Chaos, uncertainty, and the ethics of what forecasting institutions owe the people who depend on them.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-companion">Companion</span><span class="app-card-arrow">→</span></div>
-    </a>
+<!-- SECTION 3: READING RESULTS -->
+<section class="section" id="read">
+  <div class="section-num">03 &mdash; Reading the output</div>
+  <h2 class="section-title">What every number means</h2>
+  <div class="section-body">
+    <p>The simulation returns eight core metrics plus a per-agent reading and a timeline. Here is the complete reference.</p>
   </div>
-</div>
 
-<!-- CHAPTER 7 -->
-<div class="chapter-group ch-7">
-  <div class="group-label">Chapter 7 &mdash; Doyne Farmer</div>
-  <div class="app-grid">
-    <a class="app-card" href="farmer-case-explorer.html">
-      <div class="app-card-head"><div class="app-card-icon">🏭</div><div><div class="app-card-title">Farmer Case Explorer</div><div class="app-card-type">Case Explorer + Simulation</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Doyne Farmer and agent-based economics. Three runs: Representative Agent, Heterogeneous Agents, Rawlsian Test. The COVID prediction and what standard models missed.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-case">Case Explorer</span><span class="app-card-arrow">→</span></div>
-    </a>
-    <a class="app-card" href="chapter7-farmer-app.html">
-      <div class="app-card-head"><div class="app-card-icon">🔬</div><div><div class="app-card-title">Chapter 7 Companion</div><div class="app-card-type">Companion App</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">The invisible people. Representative agent error, heterogeneous modeling, social block fields, and the Rawlsian test. Your field map exercise.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-companion">Companion</span><span class="app-card-arrow">→</span></div>
-    </a>
+  <table class="metric-table">
+    <thead>
+      <tr>
+        <th>Metric</th>
+        <th>Range</th>
+        <th>What it measures</th>
+        <th>What to look for</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><div class="metric-name">lambda_raw</div></td>
+        <td><div class="metric-range">0&ndash;1</div></td>
+        <td>Population mean coordination capacity &mdash; unfiltered. What agents are actually capable of contributing.</td>
+        <td>Below 0.3 = severe capacity loss under scenario pressure. Above 0.7 = healthy baseline.</td>
+      </tr>
+      <tr>
+        <td><div class="metric-name">lambda_perceived</div></td>
+        <td><div class="metric-range">0&ndash;1</div></td>
+        <td>What agents actually feel they can contribute, after evidence distortion and suppression are applied.</td>
+        <td>The gap between raw and perceived IS the suppression. Healthy systems: gap &lt;0.05. Crisis: gap &gt;0.20.</td>
+      </tr>
+      <tr>
+        <td><div class="metric-name">friction</div></td>
+        <td><div class="metric-range">0&ndash;1</div></td>
+        <td>Group-level coordination drag from worldview differences. Computed as pairwise identity kernel distance across all agent pairs.</td>
+        <td>Above 0.6 = worldview differences are actively blocking coordination. Below 0.3 = high group homogeneity.</td>
+      </tr>
+      <tr>
+        <td><div class="metric-name">os2_synergy</div></td>
+        <td><div class="metric-range">0&ndash;1</div></td>
+        <td>V1 measure: 70% individual readiness &times; PFC capacity + 30% capability diversity across the population.</td>
+        <td>Below 0.4 = coordination strategies are misfiring or absent. Use alongside os2_synergy_bridge.</td>
+      </tr>
+      <tr>
+        <td><div class="metric-name">os2_synergy_bridge</div></td>
+        <td><div class="metric-range">0&ndash;1</div></td>
+        <td>V2 measure: cross-worldview convergence. Are agents of different worldview types reaching similar felt coordination? 45% readiness + 40% cross-worldview bridge + 15% diversity.</td>
+        <td>Below 0.5 = different-worldview agents are experiencing this scenario differently. Above 0.7 = genuine cross-framework coordination is occurring.</td>
+      </tr>
+      <tr>
+        <td><div class="metric-name">avg_stress</div></td>
+        <td><div class="metric-range">0&ndash;1+</div></td>
+        <td>Population mean prefrontal load (L_GC). Values above 0.65 trigger Sapolsky gate &mdash; agents shift from deliberate to automatic processing.</td>
+        <td>Above 0.65 = agents are in survival-mode cognition. Institutional pressure is physiologically real.</td>
+      </tr>
+      <tr>
+        <td><div class="metric-name">avg_depth</div></td>
+        <td><div class="metric-range">1&ndash;64</div></td>
+        <td>Population mean active PRF kernel depth. Represents how much of an agent&rsquo;s identity framework is cognitively accessible under current stress.</td>
+        <td>Declining depth = stress is truncating identity access. Below 3 = survival-mode active.</td>
+      </tr>
+      <tr>
+        <td><div class="metric-name">morphic_suppression</div></td>
+        <td><div class="metric-range">0&ndash;1</div></td>
+        <td>Population mean accumulated learned self-censorship. EMA of the personal gap (raw &minus; perceived) across all agents across all prior steps.</td>
+        <td>Rising across the timeline = institutional conditions are teaching agents to stop contributing. This is the Boisjoly trajectory.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="font-family:var(--serif);font-size:1.1rem;margin:28px 0 12px">Reading the timeline</h3>
+  <div class="section-body">
+    <p>Each step in the timeline contains all eight metrics plus the suppression gap and a boolean showing whether BioBond was active. The most important pattern to look for: <strong>morphic suppression rising while lambda_raw stays stable</strong>. This means agents have the capacity but are accumulating learned silence &mdash; the most dangerous institutional state.</p>
   </div>
-</div>
 
-<!-- CHAPTER 8 -->
-<div class="chapter-group ch-8">
-  <div class="group-label">Chapter 8 &mdash; The Simulated History of Ethics</div>
-  <div class="app-grid">
-    <a class="app-card" href="ethical-theories-app.html">
-      <div class="app-card-head"><div class="app-card-icon">🏛️</div><div><div class="app-card-title">Ethical Theories App</div><div class="app-card-type">Nine Stations + Simulation</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">What were the traditions actually measuring? Nine stations from Socrates to Existentialism. Conditions Cascade visualization. Composite Run with all nine conditions. The Complex PRF.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-simulation">Simulation</span><span class="app-card-arrow">→</span></div>
-    </a>
+  <h3 style="font-family:var(--serif);font-size:1.1rem;margin:28px 0 12px">Reading agent interpretations</h3>
+  <div class="section-body">
+    <p>Each agent returns a worldview-specific interpretation of their current state. The format is <code style="font-family:var(--mono);font-size:.85em;background:var(--mist);padding:1px 6px;border-radius:3px">[MODE] AgentName: &lambda;=X.XXX: interpretation | future_pull=... | os2=strategy</code>. MODE is MANUAL (deliberate cognition, C_PFC &gt; 0.5) or AUTOMATIC (stress-driven, below threshold).</p>
   </div>
-</div>
 
-<!-- CHAPTER 9 -->
-<div class="chapter-group ch-9">
-  <div class="group-label">Chapter 9 &mdash; The World Values Map</div>
-  <div class="app-grid">
-    <a class="app-card" href="chapter9-wvm-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#127758;</div><div><div class="app-card-title">Where Are You Standing?</div><div class="app-card-type">Cultural PRF &middot; Cross-Cultural Simulation</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">The World Values Map applied to the simulation. Two axes, five worldview categories, the thermodynamic logic of why values shift with conditions, IPS-WVM connection, and AMC forward pointer.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-simulation">Simulation</span><span class="app-card-arrow">&#8594;</span></div>
-    </a>
+  <div class="callout">
+    <strong>The suppression gap in practice:</strong> In the Challenger simulation (Boisjoly case study), the engine is initialized with <code style="font-size:.85em;font-family:var(--mono)">fixed_lambda_raw: 0.76</code> &mdash; agent capacity is held at a high value representing competent engineers. The filter output (lambda_perceived) then shows what the institutional architecture allows through. The gap between 0.76 and whatever lambda_perceived returns is the structural suppression: the amount of competence that the architecture absorbs rather than routes.
   </div>
-</div>
+</section>
 
-<!-- CHAPTER 10 -->
-<div class="chapter-group ch-10">
-  <div class="group-label">Chapter 10 &mdash; The Social Contract</div>
-  <div class="app-grid">
-    <a class="app-card" href="chapter10-social-contract-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#x2696;&#xFE0F;</div><div><div class="app-card-title">Who Gave Them the Right?</div><div class="app-card-type">Three Architectures &middot; IPS Profiles &middot; Simulation</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Hobbes, Locke, and Rousseau as institutional architectures mapped to IPS parameters. Characteristic failure mode per architecture. CPG five criteria as IPS requirements. The Hybrid Citizen framework.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-simulation">Simulation</span><span class="app-card-arrow">&#8594;</span></div>
-    </a>
+<!-- SECTION 4: WHAT YOU CAN DO NOW -->
+<section class="section" id="now">
+  <div class="section-num">04 &mdash; What you can do right now</div>
+  <h2 class="section-title">Running simulations on your own data</h2>
+  <div class="section-body">
+    <p>The backend accepts any population configuration you specify. The core pattern is: define who your agents are (their worldview and evidence processing style), choose a scenario that matches your context, and read what the simulation produces. Here are the three most useful starting configurations.</p>
   </div>
-</div>
 
-<!-- INTERLUDE -->
-<div class="chapter-group ch-interlude">
-  <div class="group-label">Interlude &mdash; Ethics of the Framework</div>
-  <div class="app-grid">
-    <a class="app-card" href="interlude-ethics-framework-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#9651;</div><div><div class="app-card-title">Ethics of the Framework</div><div class="app-card-type">Agency Conditions Principle &middot; Bridge Reading</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">The normative core stated in full: ACP, entropy-exporting institutions, Coherence-Preserving Governance, temporal commons, and the six-question diagnostic for the applied sequence ahead.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-reference">Reading</span><span class="app-card-arrow">&#8594;</span></div>
-    </a>
+  <h3 style="font-family:var(--serif);font-size:1.05rem;margin:0 0 10px">Configuration 1 &mdash; Worldview distribution study</h3>
+  <p style="font-size:.87rem;color:rgba(26,22,20,.65);margin-bottom:10px">You know the demographic/cultural makeup of a team or institution. Feed it in as a distribution.</p>
+  <div class="code-block">
+POST /api/simulate/custom<br><br>
+{<br>
+&nbsp;&nbsp;<span class="key">"scenario_name"</span>: <span class="val">"whistleblower"</span>,<br>
+&nbsp;&nbsp;<span class="key">"num_agents"</span>: <span class="val">16</span>,<br>
+&nbsp;&nbsp;<span class="key">"steps"</span>: <span class="val">8</span>,<br>
+&nbsp;&nbsp;<span class="key">"seed"</span>: <span class="val">42</span>,<br>
+&nbsp;&nbsp;<span class="key">"worldview_distribution"</span>: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"ubuntu_relational"</span>: <span class="val">0.40</span>,&nbsp;&nbsp;<span class="comment">// 40% of your population</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"role_order"</span>: <span class="val">0.35</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"liberal_individualist"</span>: <span class="val">0.25</span><br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;<span class="key">"evidence_distribution"</span>: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"authority_weighted"</span>: <span class="val">0.50</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"empirical_calibrated"</span>: <span class="val">0.30</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"tradition_weighted"</span>: <span class="val">0.20</span><br>
+&nbsp;&nbsp;}<br>
+}
   </div>
-</div>
 
-<!-- RUST BELT -->
-<div class="chapter-group ch-rustbelt">
-  <div class="group-label">Rust Belt Case Study &mdash; Nine Lenses Applied</div>
-  <div class="app-grid">
-    <a class="app-card" href="rust-belt-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#127981;</div><div><div class="app-card-title">Rust Belt &mdash; Nine Ethical Lenses</div><div class="app-card-type">Case Study + Three-Part Simulation</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">The Rust Belt collapse examined through all nine ethical traditions simultaneously. Pre-collapse, collapse, and current state metrics. The synthesis tab shows what no single lens can see alone.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-case">Case Study</span><span class="app-card-arrow">&#8594;</span></div>
-    </a>
+  <h3 style="font-family:var(--serif);font-size:1.05rem;margin:24px 0 10px">Configuration 2 &mdash; Challenger / suppression case</h3>
+  <p style="font-size:.87rem;color:rgba(26,22,20,.65);margin-bottom:10px">Hold agent capacity constant at a known high value. Let the filter architecture determine what gets through. This isolates structural suppression from individual capacity.</p>
+  <div class="code-block">
+POST /api/simulate/custom<br><br>
+{<br>
+&nbsp;&nbsp;<span class="key">"scenario_name"</span>: <span class="val">"whistleblower"</span>,<br>
+&nbsp;&nbsp;<span class="key">"num_agents"</span>: <span class="val">12</span>,<br>
+&nbsp;&nbsp;<span class="key">"steps"</span>: <span class="val">8</span>,<br>
+&nbsp;&nbsp;<span class="key">"fixed_lambda_raw"</span>: <span class="val">0.76</span>,&nbsp;&nbsp;<span class="comment">// Boisjoly: high capacity, intact</span><br>
+&nbsp;&nbsp;<span class="key">"activate_biobond_at"</span>: <span class="val">5</span>&nbsp;&nbsp;&nbsp;<span class="comment">// What if conditions had improved?</span><br>
+}
   </div>
-</div>
 
-<div class="divider"></div>
-
-<!-- APPLIED SEQUENCE -->
-<div class="chapter-group ch-prologue">
-  <div class="group-label">Prologue &mdash; The Pattern Beneath Ethics</div>
-  <div class="app-grid">
-    <a class="app-card" href="prologue-pattern-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#127381;</div><div><div class="app-card-title">The Pattern Beneath Ethics</div><div class="app-card-type">Scale-Free Laws &middot; Agential Hijacking &middot; Course Map</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">The scale-invariant mechanism underlying every chapter: parasitic overwrite operating identically at biological, psychological, institutional, and civilizational scales. The mantis case. Course architecture revealed.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-companion">Prologue</span><span class="app-card-arrow">&#8594;</span></div>
-    </a>
+  <h3 style="font-family:var(--serif);font-size:1.05rem;margin:24px 0 10px">Configuration 3 &mdash; Generational transmission</h3>
+  <p style="font-size:.87rem;color:rgba(26,22,20,.65);margin-bottom:10px">How does morphic suppression pass between cohorts? Does selection pressure on lambda change what the next generation inherits?</p>
+  <div class="code-block">
+POST /api/simulate/generational<br><br>
+{<br>
+&nbsp;&nbsp;<span class="key">"scenario_name"</span>: <span class="val">"whistleblower"</span>,<br>
+&nbsp;&nbsp;<span class="key">"num_agents"</span>: <span class="val">14</span>,<br>
+&nbsp;&nbsp;<span class="key">"generations"</span>: <span class="val">4</span>,<br>
+&nbsp;&nbsp;<span class="key">"steps_per_generation"</span>: <span class="val">6</span>,<br>
+&nbsp;&nbsp;<span class="key">"selection"</span>: <span class="val">"top_lambda"</span>&nbsp;<span class="comment">// or "random"</span><br>
+}
   </div>
-</div>
+</section>
 
-<div class="chapter-group ch-11">
-  <div class="group-label">Chapter 11 &mdash; Economic Systems (Applied Sequence &middot; Movement 1)</div>
-  <div class="app-grid">
-    <a class="app-card" href="chapter11-economic-systems-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#127970;</div><div><div class="app-card-title">What the Economy Does to Coherent Agency</div><div class="app-card-type">IPS Diagnostic &middot; BioBond &middot; Peterson et al. 2025</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">The False Choice thesis. Nine fairness dimensions as IPS parameters. Florida nursing home ownership archetypes (Peterson/AARP 2025 &amp; CMS data). PE acquisition trajectory 2019&ndash;2024. BioBond instruments. True Solvency Accounting. Three economic architecture simulation configs.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-simulation">Simulation + IPS</span><span class="app-card-arrow">&#8594;</span></div>
-    </a>
+<!-- SECTION 5: ROADMAP -->
+<section class="section" id="roadmap">
+  <div class="section-num">05 &mdash; Where this is going</div>
+  <h2 class="section-title">The development roadmap</h2>
+  <div class="section-body">
+    <p>What works today is a research and demonstration tool. What is coming is an integrated platform for applied work with real institutions, real data, and real-time interfaces. Here is the full arc.</p>
   </div>
-</div>
 
-<div class="chapter-group ch-12">
-  <div class="group-label">Chapter 12 &mdash; Governance Systems (Applied Sequence &middot; Movement 2)</div>
-  <div class="app-grid">
-    <a class="app-card" href="chapter12-governance-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#127981;</div><div><div class="app-card-title">Governance Systems and the Routing Quality Gap</div><div class="app-card-type">Four Configs &middot; Boisjoly T4 &middot; Type 1/Type 2 Failure</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Procedural vs. substantive legitimacy. Config A (Captured), B (Coherence-Preserving), C (Reform Transition), D (Boisjoly T4: agent FHRI 82, absorbed 67.7 pts). Type 1 vs. Type 2 routing quality failure distinction.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-simulation">Simulation</span><span class="app-card-arrow">&#8594;</span></div>
-    </a>
+  <div class="roadmap">
+
+    <div class="roadmap-phase">
+      <div class="phase-marker">
+        <div class="phase-dot live"></div>
+        <div class="phase-line"></div>
+      </div>
+      <div class="phase-content">
+        <div class="phase-status live">&#9679; Live now</div>
+        <div class="phase-title">Core Simulation Engine &mdash; V5.2</div>
+        <div class="phase-desc">The full UCP engine is deployed and callable via HTTP. All five worldview types, four evidence policies, five scenarios, BioBond intervention, fixed_lambda_raw suppression modeling, morphic suppression EMA, and multi-institutional field simulation with IPS floor-and-ceiling constraints.</div>
+        <div class="phase-features">
+          <span class="feature-tag">18 HTTP endpoints</span>
+          <span class="feature-tag">Multi-agent simulation</span>
+          <span class="feature-tag">Suppression gap</span>
+          <span class="feature-tag">Morphic suppression EMA</span>
+          <span class="feature-tag">BioBond intervention</span>
+          <span class="feature-tag">IPS structural constraints</span>
+          <span class="feature-tag">FHRI empirical initialization</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-phase">
+      <div class="phase-marker">
+        <div class="phase-dot live"></div>
+        <div class="phase-line"></div>
+      </div>
+      <div class="phase-content">
+        <div class="phase-status live">&#9679; Live now</div>
+        <div class="phase-title">The Examined Life &mdash; Student Coherence App</div>
+        <div class="phase-desc">A personal reflection app for students that tracks six coherence domains, delivers ABCD-categorized philosophical prompts, routes low-scoring sessions through a structural context prompt, generates AI Companion conversations, and builds a weekly pattern card from longitudinal check-in data. Connects to the AI Companion endpoint on this backend.</div>
+        <div class="phase-features">
+          <span class="feature-tag">Coherence check-in</span>
+          <span class="feature-tag">ABCD prompt routing</span>
+          <span class="feature-tag">Structural prompt modal</span>
+          <span class="feature-tag">Weekly pattern card</span>
+          <span class="feature-tag">AI Companion</span>
+          <span class="feature-tag">PRF-22 assessment</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-phase">
+      <div class="phase-marker">
+        <div class="phase-dot near"></div>
+        <div class="phase-line"></div>
+      </div>
+      <div class="phase-content">
+        <div class="phase-status near">&#9651; Next &mdash; weeks</div>
+        <div class="phase-title">UCP App 2 &mdash; Worldview Comparison Lab</div>
+        <div class="phase-desc">A browser-based teaching app that lets students set a worldview distribution, run a live comparison scenario, and see how different PRF types interpret the same institutional event. Students watch the suppression gap build across steps and compare liberal individualist, ubuntu relational, and role-order readings side by side. Designed for 75-minute EBB class sessions.</div>
+        <div class="phase-features">
+          <span class="feature-tag">Live scenario runner</span>
+          <span class="feature-tag">Worldview distribution controls</span>
+          <span class="feature-tag">Step-by-step timeline</span>
+          <span class="feature-tag">Per-agent interpretation display</span>
+          <span class="feature-tag">Essay prompt integration</span>
+          <span class="feature-tag">Canvas-embeddable</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-phase">
+      <div class="phase-marker">
+        <div class="phase-dot near"></div>
+        <div class="phase-line"></div>
+      </div>
+      <div class="phase-content">
+        <div class="phase-status near">&#9651; Next &mdash; weeks</div>
+        <div class="phase-title">UCP App 3 &mdash; Trans-Temporal Explorer</div>
+        <div class="phase-desc">A generational simulation interface showing how morphic suppression propagates across cohorts. Students run 3&ndash;5 generations of an institutional population and watch whether suppression accumulates, stabilizes, or clears depending on selection pressure and structural conditions. Connects to the /api/simulate/generational endpoint.</div>
+        <div class="phase-features">
+          <span class="feature-tag">Generational timeline</span>
+          <span class="feature-tag">Morphic suppression inheritance</span>
+          <span class="feature-tag">Selection mode toggle</span>
+          <span class="feature-tag">Per-agent suppression snapshots</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-phase">
+      <div class="phase-marker">
+        <div class="phase-dot near"></div>
+        <div class="phase-line"></div>
+      </div>
+      <div class="phase-content">
+        <div class="phase-status near">&#9651; Near-term &mdash; months</div>
+        <div class="phase-title">Progressive Web App (PWA) &mdash; Mobile-First EBB Tool</div>
+        <div class="phase-desc">An installable app on any phone or tablet that integrates The Examined Life check-in experience with live UCP scenario access. Students complete a PRF-22 assessment and see their worldview type reflected in a simulation alongside classmates. Offline support for check-ins, push notifications for check-in reminders, and a shared class dashboard for the instructor.</div>
+        <div class="phase-features">
+          <span class="feature-tag">Installable on iOS &amp; Android</span>
+          <span class="feature-tag">Offline check-in</span>
+          <span class="feature-tag">Push notifications</span>
+          <span class="feature-tag">Class dashboard</span>
+          <span class="feature-tag">PRF &rarr; simulation bridge</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-phase">
+      <div class="phase-marker">
+        <div class="phase-dot future"></div>
+        <div class="phase-line"></div>
+      </div>
+      <div class="phase-content">
+        <div class="phase-status future">&#9711; Future &mdash; FHRI instrument</div>
+        <div class="phase-title">Empirical Initialization &mdash; Real Organization Data</div>
+        <div class="phase-desc">The engine already has FHRI (Functional Health Resilience Index) integration built in. When a real organization completes the FHRI survey instrument (four subscales: Phenomenological Coherence, Biological Capacity, Moral Debt, Environmental Fit), those scores are mapped directly to simulation parameters &mdash; routing quality, entropy export, morphic suppression pre-load, and agent stress. The simulation then runs with empirically grounded initialization rather than theoretical defaults.</div>
+        <div class="phase-features">
+          <span class="feature-tag">FHRI subscale &rarr; engine mapping</span>
+          <span class="feature-tag">Directed FHRI trust vectors</span>
+          <span class="feature-tag">Boisjoly initialization</span>
+          <span class="feature-tag">Before/after intervention modeling</span>
+          <span class="feature-tag">Sector-specific calibration</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-phase">
+      <div class="phase-marker">
+        <div class="phase-dot future"></div>
+        <div class="phase-line"></div>
+      </div>
+      <div class="phase-content">
+        <div class="phase-status future">&#9711; Future &mdash; IPS audit</div>
+        <div class="phase-title">Institutional Parasite State (IPS) Audit Tool</div>
+        <div class="phase-desc">The V5.0 engine extension models five structural parameters of institutional parasitism: extraction rate (&epsilon;), physical entropy (&phi;), regulatory parasitism (&rho;), structural morphic residue (&sigma;), and incentive misalignment (&mu;). These can be initialized from administrative and financial data &mdash; staffing ratios, surplus distribution, documentation burden, policy age. A practitioner-facing audit tool would let organizations compute their IPS, see their FHRI_max structural ceiling, and identify which Meadows leverage level is required for meaningful improvement.</div>
+        <div class="phase-features">
+          <span class="feature-tag">Administrative data input</span>
+          <span class="feature-tag">FHRI_max computation</span>
+          <span class="feature-tag">Meadows leverage classification</span>
+          <span class="feature-tag">Counterfactual modeling</span>
+          <span class="feature-tag">Biobond bond prospectus integration</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-phase">
+      <div class="phase-marker">
+        <div class="phase-dot future"></div>
+      </div>
+      <div class="phase-content">
+        <div class="phase-status future">&#9711; Future &mdash; multi-institutional field</div>
+        <div class="phase-title">Multi-Institutional Field Dashboard</div>
+        <div class="phase-desc">The V4.0 engine extension models inter-institutional trust vectors (&Gamma;) and computes whether coordination signals route successfully from source institutions (e.g. scientific knowledge) to target institutions (e.g. national governance). A field dashboard would let researchers configure multiple institutions, specify trust vectors between them, run the social field simulation, and watch whether coordination events are achieved or lost across steps. Directly applicable to climate governance, criminal justice reform, and healthcare system analysis.</div>
+        <div class="phase-features">
+          <span class="feature-tag">Institution builder UI</span>
+          <span class="feature-tag">Trust vector configuration</span>
+          <span class="feature-tag">PE matrix visualization</span>
+          <span class="feature-tag">Meadows leverage trajectory</span>
+          <span class="feature-tag">Coordination event log</span>
+          <span class="feature-tag">D-FHRI vector input</span>
+        </div>
+      </div>
+    </div>
+
   </div>
-</div>
+</section>
 
-<div class="chapter-group ch-13">
-  <div class="group-label">Chapter 13 &mdash; Information Systems (Applied Sequence &middot; Movement 3)</div>
-  <div class="app-grid">
-    <a class="app-card" href="chapter13-infosystems-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#128225;</div><div><div class="app-card-title">Information Systems and the Second Filter</div><div class="app-card-type">Web of Acquisition &middot; &sigma;/&mu; Filter Asymmetry &middot; AI Ethics</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">The filter upstream of governance. CSER Cambridge web of acquisition framework. IPS mechanism of filter asymmetry: &sigma; (morphic residue) and &mu; (incentive misalignment). Why 80% structural improvement is the honest result. Three simulation configs with IPS profiles.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-simulation">Simulation</span><span class="app-card-arrow">&#8594;</span></div>
-    </a>
-  </div>
-</div>
+<!-- SECTION 6: QUICK REFERENCE -->
+<section class="section" id="reference">
+  <div class="section-num">06 &mdash; Quick reference</div>
+  <h2 class="section-title">Valid values for every parameter</h2>
 
-<div class="chapter-group ch-14">
-  <div class="group-label">Chapter 14 &mdash; Existential Risk (Applied Sequence &middot; Movement 4)</div>
-  <div class="app-grid">
-    <a class="app-card" href="chapter14-existential-risk-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#127759;</div><div><div class="app-card-title">Existential Risk, Leverage, and the AMC</div><div class="app-card-type">IPS Field Profiles &middot; Iron Cage &middot; T1/T2 Counterfactuals</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Meadows leverage hierarchy. Iron Cage (high-&sigma;/&rho;) and Obsolescence Trap (high-&epsilon;/&mu;) failure modes. Four-institution IPS field profiles. Trust vector trajectory. T1 vs. T2 intervention types. Paris Agreement analysis. AMC as field architecture.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-simulation">Multi-Institutional Field</span><span class="app-card-arrow">&#8594;</span></div>
-    </a>
-  </div>
-</div>
+  <h3 style="font-family:var(--serif);font-size:1rem;margin:0 0 10px">Scenario names</h3>
+  <table class="metric-table" style="margin-bottom:20px">
+    <thead><tr><th>scenario_name</th><th>Description</th><th>Base entropy</th></tr></thead>
+    <tbody>
+      <tr><td><div class="metric-name">baseline</div></td><td>Low-conflict calibration</td><td><div class="metric-range">0.25</div></td></tr>
+      <tr><td><div class="metric-name">whistleblower</div></td><td>Institutional misconduct pressure</td><td><div class="metric-range">0.78</div></td></tr>
+      <tr><td><div class="metric-name">resource_scarcity</div></td><td>Competition and defensive boundarying</td><td><div class="metric-range">0.72</div></td></tr>
+      <tr><td><div class="metric-name">land_conflict</div></td><td>Custodial and stewardship obligations</td><td><div class="metric-range">0.68</div></td></tr>
+      <tr><td><div class="metric-name">misinformation_shock</div></td><td>Epistemic distortion and repair</td><td><div class="metric-range">0.75</div></td></tr>
+    </tbody>
+  </table>
 
-<!-- INTERLUDE PARASITE -->
-<div class="chapter-group" style="border-left:3px solid #f87171">
-  <div class="group-label" style="color:#f87171">Interlude &mdash; The Parasite Revealed (Bridge: Ch10 &rarr; Ch11)</div>
-  <div class="app-grid">
-    <a class="app-card" href="interlude-parasite-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#128027;</div><div><div class="app-card-title">The Parasite Revealed</div><div class="app-card-type">Hairworm Biology &middot; The Mechanism &middot; Five Parameters &middot; Wall-E &middot; The Bridge</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">The hinge between individual ethics and systems ethics. Hairworm/mantis mechanism. Intercept, consume, replace. Five IPS parameters introduced through what students already see. Wall-E as civilizational-scale &epsilon;. The moral outrage has a target now.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-simulation">Bridge Module</span><span class="app-card-arrow">&#8594;</span></div>
-    </a>
-  </div>
-</div>
+  <h3 style="font-family:var(--serif);font-size:1rem;margin:0 0 10px">Worldview types (prf field)</h3>
+  <table class="metric-table" style="margin-bottom:20px">
+    <thead><tr><th>Value</th><th>Core values</th><th>OS2 strategies</th></tr></thead>
+    <tbody>
+      <tr><td><div class="metric-name">liberal_individualist</div></td><td>Autonomy, procedural fairness</td><td>procedural_design, autonomy_support</td></tr>
+      <tr><td><div class="metric-name">ubuntu_relational</div></td><td>Reciprocity, communal dignity</td><td>mutual_support, restorative_repair</td></tr>
+      <tr><td><div class="metric-name">indigenous_custodial</div></td><td>Stewardship, ancestor accountability</td><td>boundary_guardianship, stewardship_practice</td></tr>
+      <tr><td><div class="metric-name">role_order</div></td><td>Stability, role coherence</td><td>transparent_hierarchy, role_scaffolding</td></tr>
+      <tr><td><div class="metric-name">sacred_boundary</div></td><td>Purity, integrity, containment</td><td>boundary_guardianship, integrity_protection</td></tr>
+    </tbody>
+  </table>
 
-<!-- CH11 ECONOMICS RUST BELT -->
-<div class="chapter-group" style="border-left:3px solid #4ade80">
-  <div class="group-label" style="color:#4ade80">Chapter 11 &mdash; Economics, the Rust Belt &amp; the Parasite</div>
-  <div class="app-grid">
-    <a class="app-card" href="chapter11-economics-rustbelt-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#127981;</div><div><div class="app-card-title">Economics &amp; the Rust Belt</div><div class="app-card-type">Three-Era FHRI_max Trajectory &middot; Wall-E &middot; Sorry to Bother You &middot; Maathai Response</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Computable structural event: 1960/1985/2010 FHRI_max trajectory for Rust Belt communities. The acquisition wave as the named responsible party. Wall-E as civilizational-scale economics. Sorry to Bother You as the career-trap version. The Evergreen Cooperatives as the plant in the boot.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-simulation">Economics</span><span class="app-card-arrow">&#8594;</span></div>
-    </a>
-  </div>
-</div>
+  <h3 style="font-family:var(--serif);font-size:1rem;margin:0 0 10px">Evidence policies</h3>
+  <table class="metric-table">
+    <thead><tr><th>Value</th><th>Distortion level</th><th>What it models</th></tr></thead>
+    <tbody>
+      <tr><td><div class="metric-name">empirical_calibrated</div></td><td><div class="metric-range">Low</div></td><td>Data-forward, minimal bias, updates on evidence</td></tr>
+      <tr><td><div class="metric-name">authority_weighted</div></td><td><div class="metric-range">Moderate</div></td><td>High trust in official hierarchy, some resistance to disconfirmation</td></tr>
+      <tr><td><div class="metric-name">tradition_weighted</div></td><td><div class="metric-range">Moderate</div></td><td>Continuity, communal inheritance, respects precedent</td></tr>
+      <tr><td><div class="metric-name">alternative_facts</div></td><td><div class="metric-range">High</div></td><td>Aggressive reinterpretation, high disconfirmation resistance</td></tr>
+    </tbody>
+  </table>
+</section>
 
-<!-- CH12 GOVERNANCE -->
-<div class="chapter-group" style="border-left:3px solid #a78bfa">
-  <div class="group-label" style="color:#a78bfa">Chapter 12 &mdash; Governance &amp; the Three Failure Modes</div>
-  <div class="app-grid">
-    <a class="app-card" href="chapter12-governance-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#9939;</div><div><div class="app-card-title">Governance &amp; the Three Failure Modes</div><div class="app-card-type">Iron Cage &middot; Obsolescence Trap &middot; Regulatory Capture &middot; Governance Classifier</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Three structural failure modes with science fiction prior art: Agent Smith (Capture), White Bear (Capture with spectacle), The Evitable Conflict (Obsolescence + Iron Cage). Interactive governance classifier for real regulatory programs. Oracle obligation framing.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-simulation">Governance</span><span class="app-card-arrow">&#8594;</span></div>
-    </a>
-  </div>
-</div>
+</div><!-- /page-wrap -->
 
-<!-- CH13 INFORMATION -->
-<div class="chapter-group" style="border-left:3px solid #60a5fa">
-  <div class="group-label" style="color:#60a5fa">Chapter 13 &mdash; Information Systems &amp; The Filter</div>
-  <div class="app-grid">
-    <a class="app-card" href="chapter13-information-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#128202;</div><div><div class="app-card-title">Information Systems &amp; The Filter</div><div class="app-card-type">Filter Simulator &middot; Triadic Hack &middot; Nosedive &middot; Entire History of You &middot; Boisjoly Test</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Interactive filter asymmetry simulator: tune &sigma;/&mu;/&rho; and watch the signal get absorbed. Boisjoly Preset shows the Challenger configuration. Triadic Hack mapped across HHVBP, Nosedive, Herbie, and Challenger. The second filter problem made computable.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-simulation">Information</span><span class="app-card-arrow">&#8594;</span></div>
-    </a>
-  </div>
-</div>
+<script>
+var BACKEND = 'https://ucp-backend-4dig.onrender.com';
 
-<div class="chapter-group" style="border-left:3px solid #a78bfa">
-  <div class="group-label" style="color:#a78bfa">Cultural Resonance Module &mdash; Science Fiction as Structural Ethics Laboratory</div>
-  <div class="app-grid">
-    <a class="app-card" href="scifi-ethics-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#127916;</div><div><div class="app-card-title">Science Fiction Ethics Lab</div><div class="app-card-type">I, Robot &middot; The Matrix &middot; Wall-E &middot; Ex Machina &middot; Parasite &middot; Black Mirror</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Popular culture texts as prior art for institutional parasitism theory. IPS parameter mapping across nine works. The Three Laws as T2 intervention. The Triadic Hack and Dark Coherence across the canon. 75-minute class design. Five journal prompts connecting narrative to lived structural experience.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-simulation">Cultural Bridge</span><span class="app-card-arrow">&#8594;</span></div>
-    </a>
-  </div>
-</div>
+var PRESET_DESCS = {
+  'procedural_vs_relational_whistleblower': 'Institutional misconduct pressure \u2014 how procedural, relational, and role-order worldviews read the same scenario differently.',
+  'custodial_land_conflict': 'Land and stewardship conflict \u2014 comparing custodial, sacred-boundary, communal, and liberal readings of territorial obligation.',
+  'misinformation_and_repair': 'Epistemic distortion \u2014 what happens to coordination when evidence streams conflict and some agents operate on alternative facts.',
+  'scarcity_boundary_mix': 'Resource scarcity \u2014 how communal, ordered, and boundary-centered PRFs reorganize their moral field under competitive pressure.'
+};
 
-<div class="chapter-group ch-14">
-  <div class="group-label">Chapter 15 &mdash; The Visible Parasite (Applied Sequence &middot; Synthesis)</div>
-  <div class="app-grid">
-    <a class="app-card" href="chapter15-visible-parasite-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#128302;</div><div><div class="app-card-title">The Visible Parasite</div><div class="app-card-type">SAGE Analysis &middot; Capability Tool &middot; T1/T2 Classifier</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">What 12,239 agencies confirmed about institutional parasitism. Scale explorer from individual to civilization. SAGE applied to the nursing home structural scenario. Capability-based ethics tool: what you can actually do from where you are. T1/T2 classifier for any proposed action.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-simulation">Synthesis</span><span class="app-card-arrow">&#8594;</span></div>
-    </a>
-  </div>
-</div>
+function scrollTo(id) {
+  var el = document.getElementById(id);
+  if (el) el.scrollIntoView({behavior:'smooth'});
+  document.querySelectorAll('.nav-link').forEach(function(b){
+    b.classList.toggle('active', b.getAttribute('onclick').indexOf(id) > -1);
+  });
+}
 
-<div class="divider"></div>
+function applyPreset() {
+  var key = document.getElementById('preset-select').value;
+  document.getElementById('preset-desc').textContent = PRESET_DESCS[key] || '';
+}
 
-<!-- PSAGE DEEP DIVE -->
-<div class="chapter-group" style="border-left:3px solid #14b8a6">
-  <div class="group-label" style="color:#14b8a6">P-SAGE &mdash; Professional Ethical Analysis Protocol (Deep Dive)</div>
-  <div class="app-grid">
-    <a class="app-card" href="psage-deep-dive-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#128302;</div><div><div class="app-card-title">P-SAGE Deep Dive</div><div class="app-card-type">Perception + SAGE &middot; Semiotic Rosetta Stone &middot; Three Teaching Depths</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">The UCP V5 telescope. Adds formal Perception step to SAGE: Is the Sign intact? Has the Signal been manipulated? Has the Interpretant been replaced? Six-level Rosetta Stone from molecular to civilizational. Three depth options: vocabulary (15 min), diagnostic (45 min), formal derivation. Full walkthrough on Home Health, Challenger, and HHVBP.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag" style="background:rgba(20,184,166,.15);color:#14b8a6">Deep Dive</span><span class="app-card-arrow">&#8594;</span></div>
-    </a>
-  </div>
-</div>
+// ── Backend health check ──────────────────────────────────────────
+(function checkHealth() {
+  var dot = document.getElementById('status-dot');
+  var txt = document.getElementById('status-text');
+  var badge = document.getElementById('backend-badge');
+  fetch(BACKEND + '/api/health')
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if (d.status === 'healthy' && d.ucp_available) {
+        dot.className = 'status-dot live';
+        txt.textContent = 'Backend live \u2014 UCP V' + (d.version||'5.2') + ' \u2014 simulation engine ready';
+        if (badge) badge.textContent = 'LIVE \u2022 V' + (d.version||'5.2');
+      } else {
+        dot.className = 'status-dot checking';
+        txt.textContent = 'Backend reachable \u2014 engine loading (may take 30s on cold start)';
+        if (badge) badge.textContent = 'WARMING UP';
+        setTimeout(checkHealth, 8000);
+      }
+    })
+    .catch(function(){
+      dot.className = 'status-dot';
+      txt.textContent = 'Backend offline or warming up \u2014 refresh in 30 seconds';
+      if (badge) badge.textContent = 'OFFLINE';
+    });
+})();
 
-<!-- REFERENCE TOOLS -->
-<div class="chapter-group ch-tools">
-  <div class="group-label">Reference Tools &amp; Labs</div>
-  <div class="app-grid">
-    <a class="app-card" href="ucp-metrics-reference.html">
-      <div class="app-card-head"><div class="app-card-icon">📐</div><div><div class="app-card-title">UCP Metrics Reference</div><div class="app-card-type">Technical Reference</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Complete technical documentation for every simulation metric: formulas, ranges, research grounding, and parameter interactions.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-reference">Reference</span><span class="app-card-arrow">→</span></div>
-    </a>
-    <a class="app-card" href="ucp-student-guide.html">
-      <div class="app-card-head"><div class="app-card-icon">📖</div><div><div class="app-card-title">Student Guide</div><div class="app-card-type">How to Use the Simulation</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Plain-language guide to running simulations, reading metrics, and connecting results to the course concepts.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-reference">Guide</span><span class="app-card-arrow">→</span></div>
-    </a>
-    <a class="app-card" href="metrics-calibration-lab.html">
-      <div class="app-card-head"><div class="app-card-icon">🧪</div><div><div class="app-card-title">Metrics Calibration Lab</div><div class="app-card-type">Interactive Lab</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Hands-on parameter exploration. Adjust worldview distributions and evidence architectures and watch metrics respond in real time.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-simulation">Lab</span><span class="app-card-arrow">→</span></div>
-    </a>
-    <a class="app-card" href="worldview-comparison.html">
-      <div class="app-card-head"><div class="app-card-icon">🌐</div><div><div class="app-card-title">Worldview Comparison</div><div class="app-card-type">Reference Tool</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Side-by-side comparison of the five worldview frameworks. What each sees, what each misses, and how they interact in the simulation.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-reference">Reference</span><span class="app-card-arrow">→</span></div>
-    </a>
-    <a class="app-card" href="trans-temporal-explorer.html">
-      <div class="app-card-head"><div class="app-card-icon">⏳</div><div><div class="app-card-title">Trans-Temporal Explorer</div><div class="app-card-type">Research Tool</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Generational transmission of coordination capacity. How institutional patterns propagate across time and what degrades or improves them.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-reference">Research</span><span class="app-card-arrow">→</span></div>
-    </a>
-    <a class="app-card" href="cte-challenge.html">
-      <div class="app-card-head"><div class="app-card-icon">🏈</div><div><div class="app-card-title">CTE Challenge</div><div class="app-card-type">Case Study</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">The NFL's CTE crisis as a coordination failure case. Capability-based coordination in practice.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-case">Case Study</span><span class="app-card-arrow">→</span></div>
-    </a>
-  </div>
-</div>
+// ── Simulation runner ─────────────────────────────────────────────
+function runSimulation() {
+  var key = document.getElementById('preset-select').value;
+  var steps = parseInt(document.getElementById('param-steps').value) || 6;
+  var seed = parseInt(document.getElementById('param-seed').value) || 42;
+  var biobondRaw = document.getElementById('param-biobond').value.trim();
+  var biobond = biobondRaw !== '' ? parseInt(biobondRaw) : null;
 
+  var payload = {scenario_key: key, steps: steps, seed: seed};
+  if (biobond !== null) payload.activate_biobond_at = biobond;
 
+  var btn = document.getElementById('run-btn');
+  var area = document.getElementById('results-area');
+  var loading = document.getElementById('results-loading');
+  var content = document.getElementById('results-content');
+  var error = document.getElementById('results-error');
 
-<!-- NEW APPS FROM SESSION APRIL 2026 -->
-<div class="chapter-group" style="border-color:rgba(20,184,166,.25);background:rgba(20,184,166,.03)">
-  <div class="group-label" style="color:#14b8a6">Applied Sequence Ch11&ndash;Ch12 &middot; Economics, Governance &amp; Finance</div>
-  <div class="app-grid">
-    <a class="app-card" href="chapter11-economics-v3.html">
-      <div class="app-card-head"><div class="app-card-icon">&#128200;</div><div><div class="app-card-title">Economic Systems V3 (P-SAGE)</div><div class="app-card-type">Ch 11 &middot; Full P-SAGE Integration &middot; Rust Belt Case Study</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Economic systems analysis with full P-SAGE framework and Rust Belt community case study. Current recommended version for Ch 11.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-simulation">Simulation</span><span class="app-card-tag tag-case">Case Study</span></div>
-    </a>
-    <a class="app-card" href="he-ips-analysis-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#127979;</div><div><div class="app-card-title">Higher Education IPS Analysis</div><div class="app-card-type">Ch 11 &middot; Live College Scorecard Data &middot; Scale-Free Law Validation</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">SPC FHRI_max = 58.6 (validated 3 API runs). Full spectrum from Valencia 60.2 to Phoenix 26.9. Exit-option modulator finding. Cross-sector comparison vs PE nursing homes and GEO Group.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-case">Case Study</span><span class="app-card-tag tag-empirical">Live Data</span></div>
-    </a>
-    <a class="app-card" href="interlude-telescope-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#128301;</div><div><div class="app-card-title">Interlude: Telescope Turned Inward</div><div class="app-card-type">Ch 11&ndash;12 Bridge &middot; Smith to UCP &middot; &Delta;FHRI_max Classifier</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Adam Smith&rsquo;s two books to mathematical economics to UCP. Interactive &Delta;FHRI_max calculator distinguishes productive disruption from extractive parasitism. Six cases: Netflix, iPhone, Amazon, Uber, PE nursing home, 2008.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-theory">Theory</span><span class="app-card-tag tag-simulation">Interactive</span></div>
-    </a>
-    <a class="app-card" href="chapter12-2008-financial-crisis-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#127963;</div><div><div class="app-card-title">2008 Financial Crisis</div><div class="app-card-type">Ch 12 &middot; Triadic Overwrite at System Scale &middot; FHRI_max = 11.2</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Glass-Steagall as P-adic access mechanism. Rating agency &sigma; accumulation as Challenger parallel. Live simulation with 6 era buttons. T1 vs T2 recovery analysis. Scale-free law: same 11.2 as GEO Group and PE nursing homes.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-case">Case Study</span><span class="app-card-tag tag-simulation">Simulation</span></div>
-    </a>
-  </div>
-</div>
+  btn.disabled = true;
+  btn.textContent = 'Computing\u2026';
+  area.classList.add('visible');
+  loading.style.display = 'block';
+  content.style.display = 'none';
+  error.style.display = 'none';
 
-<div class="chapter-group" style="border-color:rgba(167,139,250,.25);background:rgba(167,139,250,.03)">
-  <div class="group-label" style="color:#a78bfa">Agency Conditions Principle &middot; ACP &amp; AMC</div>
-  <div class="app-grid">
-    <a class="app-card" href="acp-structural-lens-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#128269;</div><div><div class="app-card-title">The Structural Lens</div><div class="app-card-type">ACP App 1 &middot; OS1 vs OS2 &middot; PRF Selectors Across 4 Sectors</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Interactive diagnostic instrument. Select your PRF cluster &mdash; see your OS1 perception of each sector harm, then the OS2 structural finding underneath it. Healthcare, corrections, finance, and higher education. Full cross-sector spectrum.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-theory">Theory</span><span class="app-card-tag tag-simulation">Interactive</span></div>
-    </a>
-    <a class="app-card" href="acp-constructive-response-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#127757;</div><div><div class="app-card-title">The Constructive Response</div><div class="app-card-type">ACP App 2 &middot; AMC Architecture &middot; Profession Selector &middot; Commitment Builder</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">AMC design instrument. Three ACP professional obligations personalized by profession. BioBond rate schedule and 4-sector instruments. Cross-PRF commons showing how every OS1 framework endorses the AMC. Personal commitment builder.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-practice">Practice</span><span class="app-card-tag tag-theory">Design</span></div>
-    </a>
-  </div>
-</div>
+  fetch(BACKEND + '/api/simulate/comparison', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(payload)
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data){
+    loading.style.display = 'none';
+    if (data.error) {
+      error.style.display = 'block';
+      error.textContent = 'Error: ' + data.error;
+    } else {
+      content.style.display = 'block';
+      renderResults(data);
+    }
+  })
+  .catch(function(e){
+    loading.style.display = 'none';
+    error.style.display = 'block';
+    error.textContent = 'Network error: ' + e.message + '. Is the backend awake? Try the health check curl command first.';
+  })
+  .finally(function(){
+    btn.disabled = false;
+    btn.textContent = 'Run Simulation \u2192';
+  });
+}
 
-<div class="chapter-group" style="border-color:rgba(248,113,113,.25);background:rgba(248,113,113,.03)">
-  <div class="group-label" style="color:#f87171">IPS Empirical Studies &middot; Sector Audits</div>
-  <div class="app-grid">
-    <a class="app-card" href="geo-florida-prison-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#127981;</div><div><div class="app-card-title">GEO Group Florida IPS Audit</div><div class="app-card-type">IPS Case Study &middot; FHRI_max = 10.9 &middot; BioBond Design</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">P-SAGE audit of Florida&rsquo;s largest private prison operator. REIT structure as formal Interpretant replacement mechanism. BioBond instrument spec. Maathai pathway: Unchained Industries as the plant in the boot.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-case">Case Study</span><span class="app-card-tag tag-empirical">Real Data</span></div>
-    </a>
-  </div>
-</div>
+function renderResults(data) {
+  var m = data.metrics || {};
 
-<div class="chapter-group" style="border-color:rgba(96,165,250,.25);background:rgba(96,165,250,.03)">
-  <div class="group-label" style="color:#60a5fa">Personal Reflection &amp; Identity</div>
-  <div class="app-grid">
-    <a class="app-card" href="metaconstructor-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#129504;</div><div><div class="app-card-title">Meta-Constructor Personal Reflection</div><div class="app-card-type">Personal Reflection &middot; FHRI Sliders &middot; Claude AI Dialogue</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Seven-tab personal reflection tool. FHRI sliders, PRF mapping, Identity Kernel, Institutional Mirror (personal P-SAGE), and a live Claude AI dialogue with full course context. Where you are now &rarr; where you aim.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-practice">Practice</span><span class="app-card-tag tag-ai">AI-Powered</span></div>
-    </a>
-  </div>
-</div>
+  // ── Metrics tiles ─────────────────────────────────────────────
+  var gap = (m.lambda_raw - m.lambda_perceived);
+  var tiles = [
+    {label:'lambda_raw', val:fmt(m.lambda_raw), interp: m.lambda_raw < 0.3 ? 'Severe capacity loss' : m.lambda_raw > 0.6 ? 'Healthy' : 'Moderate', warn: m.lambda_raw < 0.3},
+    {label:'lambda_perceived', val:fmt(m.lambda_perceived), interp: 'Gap: ' + fmt(gap) + (gap > 0.15 ? ' \u2014 HIGH suppression' : gap > 0.05 ? ' \u2014 moderate' : ' \u2014 low'), warn: gap > 0.15},
+    {label:'friction', val:fmt(m.friction), interp: m.friction > 0.6 ? 'Worldview clash active' : m.friction > 0.4 ? 'Moderate drag' : 'Low', warn: m.friction > 0.6},
+    {label:'avg_stress', val:fmt(m.avg_stress), interp: m.avg_stress > 0.65 ? 'Survival mode \u2014 Sapolsky gate open' : 'Below gate threshold', warn: m.avg_stress > 0.65},
+    {label:'os2_synergy_bridge', val:fmt(m.os2_synergy_bridge), interp: m.os2_synergy_bridge > 0.6 ? 'Cross-worldview coordination occurring' : 'Different PRFs diverging', warn: m.os2_synergy_bridge < 0.4},
+    {label:'morphic_suppression', val:fmt4(m.morphic_suppression), interp: m.morphic_suppression > 0.1 ? 'Significant learned self-censorship' : 'Low \u2014 watch trajectory', warn: m.morphic_suppression > 0.1},
+    {label:'avg_depth', val:(m.avg_depth||0).toFixed(1), interp: m.avg_depth < 3 ? 'SURVIVAL MODE \u2014 identity truncated' : 'Kernel accessible', warn: m.avg_depth < 3},
+    {label:'os2_synergy', val:fmt(m.os2_synergy), interp: 'Individual coordination readiness', warn: m.os2_synergy < 0.3},
+  ];
 
-<div style="text-align:center;padding:2rem 0 1rem;font-family:'JetBrains Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.2)">
-  Ethics Beyond Boundaries &middot; Saint Petersburg College &middot; Ethics Institute &middot; &copy; 2026
-</div>
+  document.getElementById('metrics-grid').innerHTML = tiles.map(function(t){
+    return '<div class="metric-tile">' +
+      '<div class="metric-tile-label">' + t.label + '</div>' +
+      '<div class="metric-tile-value' + (t.warn?' warn':'') + '">' + t.val + '</div>' +
+      '<div class="metric-tile-interp">' + t.interp + '</div>' +
+      '</div>';
+  }).join('');
 
-</div>
-</body>
-</html> &mdash; The Visible Parasite (Applied Sequence &middot; Synthesis)</div>
-  <div class="app-grid">
-    <a class="app-card" href="chapter15-visible-parasite-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#128302;</div><div><div class="app-card-title">The Visible Parasite</div><div class="app-card-type">SAGE Analysis &middot; Capability Tool &middot; T1/T2 Classifier</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">What 12,239 agencies confirmed about institutional parasitism. Scale explorer from individual to civilization. SAGE applied to the nursing home structural scenario. Capability-based ethics tool: what you can actually do from where you are. T1/T2 classifier for any proposed action.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-simulation">Synthesis</span><span class="app-card-arrow">&#8594;</span></div>
-    </a>
-  </div>
-</div>
+  // ── Timeline chart ────────────────────────────────────────────
+  var tl = data.timeline || [];
+  if (tl.length >= 2) {
+    document.getElementById('chart-svg-wrap').innerHTML = buildChart(tl);
+  }
 
-<div class="divider"></div>
+  // ── Agent readings ────────────────────────────────────────────
+  var readings = data.sample_readings || [];
+  document.getElementById('agent-readings').innerHTML = readings.map(function(a){
+    var gapA = parseFloat(a.raw_lambda) - parseFloat(a.perceived_lambda);
+    return '<div class="agent-card">' +
+      '<div class="agent-card-header">' +
+        '<span class="agent-name">Agent ' + a.agent + ' \u2014 ' + a.name + '</span>' +
+        '<span class="agent-worldview">' + (a.worldview||'').replace(/_/g,' ') + ' / ' + (a.evidence||'').replace(/_/g,' ') + '</span>' +
+      '</div>' +
+      '<div class="agent-interp">' + (a.interpretation||'') + '</div>' +
+      '<div class="agent-lambda">' +
+        '\u03bb raw: ' + a.raw_lambda + '  \u2502  \u03bb perceived: ' + a.perceived_lambda +
+        (gapA > 0.02 ? '  \u2502  gap: ' + gapA.toFixed(3) : '') +
+      '</div>' +
+      '</div>';
+  }).join('');
 
-<!-- PSAGE DEEP DIVE -->
-<div class="chapter-group" style="border-left:3px solid #14b8a6">
-  <div class="group-label" style="color:#14b8a6">P-SAGE &mdash; Professional Ethical Analysis Protocol (Deep Dive)</div>
-  <div class="app-grid">
-    <a class="app-card" href="psage-deep-dive-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#128302;</div><div><div class="app-card-title">P-SAGE Deep Dive</div><div class="app-card-type">Perception + SAGE &middot; Semiotic Rosetta Stone &middot; Three Teaching Depths</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">The UCP V5 telescope. Adds formal Perception step to SAGE: Is the Sign intact? Has the Signal been manipulated? Has the Interpretant been replaced? Six-level Rosetta Stone from molecular to civilizational. Three depth options: vocabulary (15 min), diagnostic (45 min), formal derivation. Full walkthrough on Home Health, Challenger, and HHVBP.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag" style="background:rgba(20,184,166,.15);color:#14b8a6">Deep Dive</span><span class="app-card-arrow">&#8594;</span></div>
-    </a>
-  </div>
-</div>
+  // ── Raw JSON ──────────────────────────────────────────────────
+  document.getElementById('raw-json').textContent = JSON.stringify(data, null, 2);
+}
 
-<!-- REFERENCE TOOLS -->
-<div class="chapter-group ch-tools">
-  <div class="group-label">Reference Tools &amp; Labs</div>
-  <div class="app-grid">
-    <a class="app-card" href="ucp-metrics-reference.html">
-      <div class="app-card-head"><div class="app-card-icon">📐</div><div><div class="app-card-title">UCP Metrics Reference</div><div class="app-card-type">Technical Reference</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Complete technical documentation for every simulation metric: formulas, ranges, research grounding, and parameter interactions.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-reference">Reference</span><span class="app-card-arrow">→</span></div>
-    </a>
-    <a class="app-card" href="ucp-student-guide.html">
-      <div class="app-card-head"><div class="app-card-icon">📖</div><div><div class="app-card-title">Student Guide</div><div class="app-card-type">How to Use the Simulation</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Plain-language guide to running simulations, reading metrics, and connecting results to the course concepts.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-reference">Guide</span><span class="app-card-arrow">→</span></div>
-    </a>
-    <a class="app-card" href="metrics-calibration-lab.html">
-      <div class="app-card-head"><div class="app-card-icon">🧪</div><div><div class="app-card-title">Metrics Calibration Lab</div><div class="app-card-type">Interactive Lab</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Hands-on parameter exploration. Adjust worldview distributions and evidence architectures and watch metrics respond in real time.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-simulation">Lab</span><span class="app-card-arrow">→</span></div>
-    </a>
-    <a class="app-card" href="worldview-comparison.html">
-      <div class="app-card-head"><div class="app-card-icon">🌐</div><div><div class="app-card-title">Worldview Comparison</div><div class="app-card-type">Reference Tool</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Side-by-side comparison of the five worldview frameworks. What each sees, what each misses, and how they interact in the simulation.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-reference">Reference</span><span class="app-card-arrow">→</span></div>
-    </a>
-    <a class="app-card" href="trans-temporal-explorer.html">
-      <div class="app-card-head"><div class="app-card-icon">⏳</div><div><div class="app-card-title">Trans-Temporal Explorer</div><div class="app-card-type">Research Tool</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Generational transmission of coordination capacity. How institutional patterns propagate across time and what degrades or improves them.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-reference">Research</span><span class="app-card-arrow">→</span></div>
-    </a>
-    <a class="app-card" href="cte-challenge.html">
-      <div class="app-card-head"><div class="app-card-icon">🏈</div><div><div class="app-card-title">CTE Challenge</div><div class="app-card-type">Case Study</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">The NFL's CTE crisis as a coordination failure case. Capability-based coordination in practice.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-case">Case Study</span><span class="app-card-arrow">→</span></div>
-    </a>
-  </div>
-</div>
+function buildChart(tl) {
+  var W = 680, H = 120, padL = 36, padR = 12, padT = 10, padB = 24;
+  var n = tl.length;
+  var xStep = (W - padL - padR) / Math.max(n - 1, 1);
+  var yScale = function(v){ return padT + (1 - v) * (H - padT - padB); };
 
-<div style="text-align:center;padding:2rem 0 1rem;font-family:'JetBrains Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.2)">
-  Ethics Beyond Boundaries &middot; Saint Petersburg College &middot; Ethics Institute &middot; &copy; 2026
-</div>
+  var rawPts = tl.map(function(s,i){ return (padL + i*xStep).toFixed(1)+','+yScale(s.lambda_raw).toFixed(1); }).join(' ');
+  var percPts = tl.map(function(s,i){ return (padL + i*xStep).toFixed(1)+','+yScale(s.lambda_perceived).toFixed(1); }).join(' ');
 
-</div>
+  // Gap fill polygon
+  var gapPoly = tl.map(function(s,i){ return (padL+i*xStep).toFixed(1)+','+yScale(s.lambda_raw).toFixed(1); }).join(' ') + ' ' +
+    tl.slice().reverse().map(function(s,i){ return (padL+(n-1-i)*xStep).toFixed(1)+','+yScale(s.lambda_perceived).toFixed(1); }).join(' ');
+
+  // Y axis labels
+  var yLabels = [0,0.25,0.5,0.75,1.0].map(function(v){
+    return '<text x="'+(padL-4)+'" y="'+yScale(v).toFixed(1)+'" text-anchor="end" font-size="9" fill="rgba(26,22,20,.4)" dominant-baseline="middle">'+v+'</text>';
+  }).join('');
+
+  // X axis labels
+  var xLabels = tl.map(function(s,i){
+    return '<text x="'+(padL+i*xStep).toFixed(1)+'" y="'+(H-6)+'" text-anchor="middle" font-size="9" fill="rgba(26,22,20,.4)">'+s.step+'</text>';
+  }).join('');
+
+  // Morphic suppression line (scaled up for visibility)
+  var morphPts = tl.map(function(s,i){ return (padL+i*xStep).toFixed(1)+','+yScale(Math.min(s.morphic_suppression*5,1)).toFixed(1); }).join(' ');
+
+  return '<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" style="max-width:100%;display:block">' +
+    // Grid lines
+    [0.25,0.5,0.75].map(function(v){ return '<line x1="'+padL+'" x2="'+(W-padR)+'" y1="'+yScale(v).toFixed(1)+'" y2="'+yScale(v).toFixed(1)+'" stroke="rgba(26,22,20,.08)" stroke-width="1"/>'; }).join('') +
+    // Gap fill
+    '<polygon points="'+gapPoly+'" fill="rgba(184,92,56,.12)"/>' +
+    // Lambda raw
+    '<polyline points="'+rawPts+'" fill="none" stroke="#0D5E57" stroke-width="2" stroke-linejoin="round"/>' +
+    // Lambda perceived
+    '<polyline points="'+percPts+'" fill="none" stroke="#0D5E57" stroke-width="1.5" stroke-dasharray="4,3" stroke-linejoin="round" opacity=".7"/>' +
+    // Morphic suppression (scaled)
+    '<polyline points="'+morphPts+'" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity=".6" stroke-linejoin="round"/>' +
+    yLabels + xLabels +
+    // Legend
+    '<rect x="'+padL+'" y="3" width="8" height="2" fill="#0D5E57"/>' +
+    '<text x="'+(padL+11)+'" y="8" font-size="8" fill="rgba(26,22,20,.5)">\u03bb raw</text>' +
+    '<line x1="'+(padL+45)+'" y1="4" x2="'+(padL+53)+'" y2="4" stroke="#0D5E57" stroke-width="1.5" stroke-dasharray="3,2" opacity=".7"/>' +
+    '<text x="'+(padL+56)+'" y="8" font-size="8" fill="rgba(26,22,20,.5)">\u03bb perceived</text>' +
+    '<rect x="'+(padL+120)+'" y="3" width="8" height="2" fill="#c9a84c" opacity=".7"/>' +
+    '<text x="'+(padL+131)+'" y="8" font-size="8" fill="rgba(26,22,20,.5)">morphic \xd75</text>' +
+    '</svg>';
+}
+
+function fmt(v){ return (v||0).toFixed(3); }
+function fmt4(v){ return (v||0).toFixed(4); }
+</script>
 </body>
 </html>
